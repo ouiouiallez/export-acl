@@ -1,0 +1,33 @@
+# EXPORT-ACL
+* * *
+
+## About
+This is a PowerShell script I made in order to audit the access rights in my company's shared folders.     
+Thanks to the great ImportExcel module by dfinke, the ACL are exported to a pretty Excel file, with a sheet for every folder given in parameter.
+Written by Benoît Flache. 
+
+## Prerequisites
+    You need to have installed the RSAT tools on your computer, as this scripts uses some cmdlets included in those. 
+    You need of course access rights to the directories you want to scan.
+    The ImportExcel module is automatically imported if you do not have it installed.
+
+## How to use 
+
+-out is where you want to save the Excel file. For example : C:\document.xlsx    
+
+-scan is either :    
+  - the path to the directory you want to scan    
+  - the path to a txt file with the list of all the directories you want to scan      
+  
+-depth is the recursive depth. Default : 1.     
+
+## Examples 
+```
+    export-acl -scan M:\path\to\directory -out C:\document.xlsx
+    export-acl -scan C:\path\to\list.txt -out C:\document.xlsx
+    export-acl -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
+``` 
+
+## Improvements
+I will try to improve this script, however if you have any questions or ideas on how to improve the code with new features or redesigning the functions, structure or in general   
+code quality you are more than welcome :)
