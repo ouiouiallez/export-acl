@@ -1,0 +1,34 @@
+NAME
+    export-acl
+
+SYNOPSIS
+    Exports the ACL list of a given folder to an Excel file.
+
+SYNTAX
+
+    export-acl [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>]
+
+PREREQUISITES
+
+    You need to have installed the RSAT tools on your computer, as this scripts uses some cmdlets included in those. 
+    You need of course access rights to the directories you want to scan.
+    The ImportExcel module is automatically imported if you do not have it installed.
+
+DESCRIPTION
+
+    This script parses the directories given and fetches all the access types linked to users or security groups. You can specify a single directory, or the path to a text file
+    containing all the paths you want to scan. The list is exported in a single excel file, with one sheet per directory given as parameter.
+    The path where to save the Excel file is given with the -out parameter. 
+    You can also specify the recursive depth with the -depth parameter. The default is 1, and the minimum is 0(which is like typing "dir" or get-childitem)
+
+
+RELATED LINKS
+    GitHub repository : <a inserer>
+    ImportExcel module repository : https://github.com/dfinke/ImportExcel
+    Install RSAT tools : Get-WindowsCapability -Name RSAT* -Online | where State -EQ NotPresent | Add-WindowsCapability –Online
+
+EXAMPLES
+
+    export-acl -scan M:\path\to\directory -out C:\document.xlsx
+    export-acl -scan C:\path\to\list.txt -out C:\document.xlsx
+    export-acl -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
