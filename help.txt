@@ -23,8 +23,8 @@ DESCRIPTION
 
 
 RELATED LINKS
-    GitHub repository : <a inserer>
-    ImportExcel module repository : https://github.com/dfinke/ImportExcel
+    GitHub repository : https://github.com/ouiouiallez/export-acl
+    ImportExcel GitHub repository : https://github.com/dfinke/ImportExcel
     Install RSAT tools : Get-WindowsCapability -Name RSAT* -Online | where State -EQ NotPresent | Add-WindowsCapability –Online
 
 EXAMPLES
