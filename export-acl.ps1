@@ -118,7 +118,7 @@ function isADGroup{
         $name
     )
     $splitted = $name.Value.split("\")[-1]
-    if($null -ne (Get-ADObject -LDAPFilter "(objectClass=group)" | Select-String $splitted)){
+    if($null -ne (Get-ADObject -LDAPFilter "(objectClass=group)" | Format-Table Name | Select-String $splitted)){
         return $true
     }else{
         return $false
