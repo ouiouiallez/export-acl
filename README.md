@@ -1,10 +1,16 @@
-# EXPORT-ACL
+# EXPORTS ACL TO EXCEL FILE 
 * * *
 
 ## About
 This is a PowerShell script I made in order to audit the access rights in my company's shared folders.     
-Thanks to the great ImportExcel module by dfinke, the ACL are exported to a pretty Excel file, with a sheet for every folder given in parameter.
-Written by Benoît Flache. 
+Thanks to the ImportExcel module by dfinke, the ACL are exported to a pretty Excel file, with a sheet for every folder given in parameter.
+Written by Benoît Flache, 2022.
+
+## Features
+    - Fetches the AD Security Groups, prints their names as well as the list of their members
+    - Customizable search depth
+    - Takes a single folder path or a file text with all paths to scan
+    - Adds a Table Style (you can change it in source code in the Export function) 
 
 ## Prerequisites
     You need to have installed the RSAT tools on your computer, as this scripts uses some cmdlets included in those. 
@@ -27,7 +33,9 @@ Written by Benoît Flache.
     export-acl -scan C:\path\to\list.txt -out C:\document.xlsx
     export-acl -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
 ``` 
-
+## Links
+    GitHub repository : https://github.com/ouiouiallez/export-acl
+    ImportExcel GitHub repository : https://github.com/dfinke/ImportExcel
+    
 ## Improvements
-I will try to improve this script, however if you have any questions or ideas on how to improve the code with new features or redesigning the functions, structure or in general   
-code quality you are more than welcome :)
+I will try to improve this script, however if you have any questions or ideas on how to improve the code with new features or redesigning the functions, structure or in general code quality you are more than welcome :)
