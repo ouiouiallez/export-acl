@@ -117,12 +117,15 @@ function isADGroup{
     param(
         $name
     )
+    $result = $false
     $splitted = $name.Value.split("\")[-1]
-    if($null -ne (Get-ADObject -LDAPFilter "(objectClass=group)" | Format-Table Name | Select-String $splitted)){
-        return $true
-    }else{
-        return $false
+    $allGroups = Get-ADObject -LDAPFilter "(objectClass=group)"
+    foreach($group in $allGroups){
+        if($group.Name -eq $splitted){
+            $result = $true
+        }
     }
+    return $result
 }
 <#
 .Description
@@ -131,7 +134,8 @@ Return a string listing all the members of an AD group
 function getMembers{
     param(
         $groupName
-    )  
+    )
+    write-host $groupName  
     $arrayMembers = Get-ADGroupMember -identity $groupName -recursive | Select-Object SamAccountName
     $stringMembers=""
     foreach($key in $arrayMembers){
