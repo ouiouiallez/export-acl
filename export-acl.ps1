@@ -135,7 +135,6 @@ function getMembers{
     param(
         $groupName
     )
-    write-host $groupName  
     $arrayMembers = Get-ADGroupMember -identity $groupName -recursive | Select-Object SamAccountName
     $stringMembers=""
     foreach($key in $arrayMembers){
