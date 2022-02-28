@@ -117,15 +117,13 @@ function isADGroup{
     param(
         $name
     )
-    $result = $false
     $splitted = $name.Value.split("\")[-1]
-    $allGroups = Get-ADObject -LDAPFilter "(objectClass=group)"
-    foreach($group in $allGroups){
-        if($group.Name -eq $splitted){
-            $result = $true
-        }
+    $query = (Get-ADObject -Filter 'objectClass -eq "group" -and Name -eq $splitted')
+    if($null -eq $query -or "" -eq $query){
+        return $false
+    }else{
+        return $true
     }
-    return $result
 }
 <#
 .Description

@@ -1,4 +1,4 @@
-# EXPORTS ACL TO EXCEL FILE 
+# EXPORT ACL TO EXCEL FILE 
 * * *
 
 ## About
@@ -28,6 +28,8 @@ Written by Benoît Flache, 2022.
   
 -depth is the recursive depth. Default : 1.     
 
+-help to print help and command examples
+
 ### txt file
 To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
 For example :
@@ -44,6 +46,7 @@ M:\
     export-acl -scan M:\path\to\directory -out C:\document.xlsx
     export-acl -scan C:\path\to\list.txt -out C:\document.xlsx
     export-acl -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
+    export-acl -help
 ``` 
 ## Links
     GitHub repository : https://github.com/ouiouiallez/export-acl
