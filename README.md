@@ -43,14 +43,14 @@ M:\
 
 ## Examples 
 ```powershell
-    .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
-    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
-    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
-    .\export-acl.ps1 -help
+.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
+.\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
+.\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
+.\export-acl.ps1 -help
 ``` 
 ## Links
-    [GitHub repository](https://github.com/ouiouiallez/export-acl)
-    [ImportExcel GitHub repo](https://github.com/dfinke/ImportExcel)
+[GitHub repository](https://github.com/ouiouiallez/export-acl)
+[ImportExcel GitHub repo](https://github.com/dfinke/ImportExcel)
     
 ## Improvements
 I will try to improve this script, however if you have any questions or ideas on how to improve the code with new features or redesigning the functions, structure or in general code quality you are more than welcome :)
