@@ -19,6 +19,7 @@ Written by Benoît Flache, 2022.
 
 ## How to use 
 
+### Paremeters
 -out is where you want to save the Excel file. For example : C:\document.xlsx    
 
 -scan is either :    
@@ -26,6 +27,17 @@ Written by Benoît Flache, 2022.
   - the path to a txt file with the list of all the directories you want to scan      
   
 -depth is the recursive depth. Default : 1.     
+
+### txt file
+To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
+For example :
+ 
+*folders.txt*
+```
+K:\first\fold\to\scan
+C:\second\folder
+M:\
+```
 
 ## Examples 
 ```
