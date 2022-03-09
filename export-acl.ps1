@@ -51,20 +51,20 @@ Core function of this script. It takes all the rights and usernames and puts it 
 #>
 function Export{
     param(
-        $FolderPath,
-        $racine,
+        $childFolders,
+        $root,
         $dest
     )
     $Report = @()
-    #gets all rights given to determine the number of columns
-    $allRights = getAllRights -FolderPath $FolderPath
+    $allRights = getAllRights -childFolders $childFolders #gets all rights given to determine the number of columns
+
     #iterates to append to each line 
-    Foreach ($Folder in $FolderPath) {
-        #gets ACL for current folder
-        $Acl = Get-Acl -Path $Folder.FullName
-        $rightsAndNames = getRightsAndMembers -acl $Acl
-        $racineParenthesis = "(" + $racine + ")" # allows folder name to be printed even if it has the same name as the root folder
-        $path = ($Folder.FullName -split $racineParenthesis,2)[-1]
+    Foreach ($Folder in $childFolders) {
+        $Acl = Get-Acl -Path $Folder.FullName #gets ACL for current folder
+        $rightsAndNames = getRightsAndMembers -acl $Acl 
+
+        $rootParenthesis = "(" + $root + ")" # allows folder name to be printed even if it has the same name as the root folder
+        $path = ($Folder.FullName -split $rootParenthesis,2)[-1]
         #creates fields to export
         $Properties = [ordered]@{'Path'=$path}
         #adds a column per access type and creates fields
@@ -77,7 +77,7 @@ function Export{
         }
         $Report += New-Object -TypeName PSObject -Property $Properties
     }
-    $file = $Report | Export-Excel $dest -WorksheetName $racine -PassThru -TableStyle Light13
+    $file = $Report | Export-Excel $dest -WorksheetName $root -PassThru -TableStyle Light13
     format -file $file
     Close-ExcelPackage $file
 }
@@ -148,10 +148,10 @@ Return an arrray containing the different rights given throughout the folders, a
 #>
 function getAllRights{
     param(
-        $FolderPath
+        $childFolders
     )
     $rightsArray=@()
-    foreach($folder in $FolderPath){
+    foreach($folder in $childFolders){
         $Acl = Get-Acl -Path $folder.FullName
         foreach($accessType in $Acl.Access){
             if($false -eq ($rightsArray -contains $accessType)){
@@ -221,7 +221,7 @@ if($help){
     foreach($dir in getPaths -userinput $scan){
         $root = getRoot -path $dir
         write-host -nonewline "Scanning $root..."
-        Export -FolderPath (Get-Child-Recurse -depth $depth -working_dir $dir) -dest $out -racine $root
+        Export -childFolders (Get-Child-Recurse -depth $depth -working_dir $dir) -dest $out -root $root
         Write-Host "Done"
     }
 }
