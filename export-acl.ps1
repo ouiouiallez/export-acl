@@ -42,7 +42,7 @@ function Get-Child-Recurse{
         [string]$working_dir,
         $depth
     )
-    return Get-ChildItem -Directory -Path $working_dir -depth $depth -Force
+    return ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force) | Sort-Object -Property FullName)
 }
 
 <#
@@ -77,6 +77,7 @@ function Export{
         }
         $Report += New-Object -TypeName PSObject -Property $Properties
     }
+
     $file = $Report | Export-Excel $dest -WorksheetName $root -PassThru -TableStyle Light13
     format -file $file
     Close-ExcelPackage $file
