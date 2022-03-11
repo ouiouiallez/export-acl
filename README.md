@@ -1,5 +1,6 @@
 # EXPORT ACL TO EXCEL FILE 
 * * *
+https://github.com/ouiouiallez/export-acl   
 
 ## About
 This is a PowerShell script I made in order to audit the access rights in my company's shared folders.     
