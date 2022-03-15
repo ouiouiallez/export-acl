@@ -2,7 +2,8 @@ param(
     [string]$out,
     [Int]$depth = 1,
     [string]$scan,
-    [switch] $help
+    [switch] $help,
+    [switch] $q
 )
 
 <#
@@ -203,26 +204,35 @@ function getRoot{
     return $root
 }
 
-function printHelp{
-    Get-Content help.txt
-    Exit
+function checkRequirementsAndInput{
+    $ok = $false
+    #Installs Import-Excel module if not present
+    if($null -eq (Get-InstalledModule | Select-String "ImportExcel")){
+        Install-Module -Name ImportExcel
+    }
+    #checks parameters
+    if($help){
+        Write-Host (Get-Content -Raw -Encoding utf8 help.txt)
+    }elseif($null -eq $out -or "" -eq $out -or $null -eq $scan -or "" -eq $scan){
+        Write-Host "Please specify -out and -scan parameters. `nUse -help for more details."
+    }else{
+        $ok = $true
+    }
+    return $ok
 }
 
-#Installs Import-Excel module if not present
-if($null -eq (Get-InstalledModule | Select-String "ImportExcel")){
-    Install-Module -Name ImportExcel
-}
+#------------------------ MAIN ------------------------#
+$ok = checkRequirementsAndInput
 
-if($help){
-    printHelp
-}elseif($null -eq $out -or "" -eq $out -or $null -eq $scan -or "" -eq $scan){
-    Write-Host "Please specify -out and -scan parameters. `nUse -help for more details."
-    Exit
-}else{
+if($ok -eq $true){
     foreach($dir in getPaths -userinput $scan){
         $root = getRoot -path $dir
-        write-host -nonewline "Scanning $root..."
+        if($q -ne $true){write-host -nonewline "Scanning $root..."}
         Export -childFolders (Get-Child-Recurse -depth $depth -working_dir $dir) -dest $out -root $root
-        Write-Host "Done"
+        if($q -ne $true){Write-Host "Done"}
     }
+}else{
+    Exit
 }
+    
+
