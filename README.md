@@ -30,7 +30,9 @@ Written by Benoît Flache, 2022.
   
 `-depth` is the recursive depth. Default : 1.     
 
-`-help` to print help and command examples
+`-help` to print help and command examples     
+
+`-q` to disable output to console     
 
 ### txt file
 To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
