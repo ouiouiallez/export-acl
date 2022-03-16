@@ -6,7 +6,7 @@ SYNOPSIS
 
 SYNTAX
 
-    export-acl [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>]
+    export-acl [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>] [-q <Switch>]
 
 PREREQUISITES
 
@@ -31,4 +31,4 @@ EXAMPLES
 
     .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
     .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
-    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
+    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2 -q
