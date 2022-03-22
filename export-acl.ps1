@@ -2,8 +2,9 @@ param(
     [string]$out,
     [Int]$depth = 1,
     [string]$scan,
-    [switch] $help,
-    [switch] $q
+    [switch]$help,
+    [switch]$q,
+    [string]$style="Light13"
 )
 
 <#
@@ -79,7 +80,7 @@ function Export{
         $Report += New-Object -TypeName PSObject -Property $Properties
     }
 
-    $file = $Report | Export-Excel $dest -WorksheetName $root -PassThru -TableStyle Light13
+    $file = $Report | Export-Excel $dest -WorksheetName $root -PassThru -TableStyle $style
     format -file $file
     Close-ExcelPackage $file
 }

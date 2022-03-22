@@ -6,7 +6,7 @@ SYNOPSIS
 
 SYNTAX
 
-    export-acl [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>] [-q <Switch>]
+    export-acl [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>] [-q <Switch>] [-style <System.String>]
 
 PREREQUISITES
 
@@ -27,8 +27,13 @@ RELATED LINKS
     ImportExcel GitHub repository : https://github.com/dfinke/ImportExcel
     Install RSAT tools : Get-WindowsCapability -Name RSAT* -Online | where State -EQ NotPresent | Add-WindowsCapability –Online
 
+AVAILABLE TABLE STYLES 
+Light[1..21] | Medium[1..28] | Dark[1..11]
+Default is Light13
+
 EXAMPLES
 
     .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
     .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
     .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2 -q
+    .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3

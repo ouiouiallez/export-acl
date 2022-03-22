@@ -34,6 +34,8 @@ Written by Benoît Flache, 2022.
 
 `-q` to disable output to console     
 
+`-style` to select the table style. Possibilities  are listed in file `help.txt`     
+
 ### txt file
 To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
 For example :
