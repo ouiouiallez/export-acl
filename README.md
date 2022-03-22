@@ -42,7 +42,7 @@ For example :
  
 *folders.txt*
 ```
-K:\first\fold\to\scan
+K:\first\folder\to\scan
 C:\second\folder
 M:\
 ```
@@ -53,6 +53,7 @@ M:\
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
 .\export-acl.ps1 -help
+.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
 ``` 
 ## Links
 [GitHub repository](https://github.com/ouiouiallez/export-acl)     
