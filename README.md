@@ -14,10 +14,10 @@ Written by Benoît Flache, 2022.
  - Takes a single folder path or a file text with all paths to scan
  - Adds a Table Style (you can change it in source code in the Export function) 
 
-## Prerequisites
-    You need to have installed the RSAT tools on your computer, as this scripts uses some cmdlets included in those. 
-    You need of course access rights to the directories you want to scan.
-    The ImportExcel module is automatically imported if you do not have it installed.
+## Prerequisites    
+ - You need to have installed the RSAT tools on your computer, as this scripts uses some cmdlets included in those. 
+ - You need of course access rights to the directories you want to scan.
+ - The ImportExcel module is automatically imported if you do not have it installed.
 
 ## How to use 
 
