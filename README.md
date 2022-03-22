@@ -21,7 +21,7 @@ Written by Benoît Flache, 2022.
 
 ## How to use 
 
-### Paremeters
+### Parameters
 `-out` is where you want to save the Excel file. For example : C:\document.xlsx    
 
 `-scan` is either :    
