@@ -205,6 +205,21 @@ function getRoot{
     return $root
 }
 
+function checkStyles{
+    param(
+        [string]$style
+    )
+    $allStyles = @()
+    for($i = 1; $i -le 21; $i += 1){$allStyles += ("Light" + $i)}
+    for($i = 1; $i -le 28; $i += 1){$allStyles += ("Medium" + $i)}
+    for($i = 1; $i -le 11; $i += 1){$allStyles += ("Dark" + $i)}
+    if($allStyles -contains $style){
+        return $true
+    }else{
+        return $false
+    }
+}
+
 function checkRequirementsAndInput{
     $ok = $false
     #Installs Import-Excel module if not present
@@ -216,6 +231,8 @@ function checkRequirementsAndInput{
         Write-Host (Get-Content -Raw -Encoding utf8 help.txt)
     }elseif($null -eq $out -or "" -eq $out -or $null -eq $scan -or "" -eq $scan){
         Write-Host "Please specify -out and -scan parameters. `nUse -help for more details."
+    }elseif($null -eq $style -or $false -eq (checkStyles($style))){
+        Write-Host "Please specify a valid style name.`nType .\export-acl -help to see possibilities."
     }else{
         $ok = $true
     }
