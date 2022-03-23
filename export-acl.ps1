@@ -232,7 +232,7 @@ function checkRequirementsAndInput{
     }elseif($null -eq $out -or "" -eq $out -or $null -eq $scan -or "" -eq $scan){
         Write-Host "Please specify -out and -scan parameters. `nUse -help for more details."
     }elseif($null -eq $style -or $false -eq (checkStyles($style))){
-        Write-Host "Please specify a valid style name.`nType .\export-acl -help to see possibilities."
+        Write-Host "Please specify a valid style name.`nUse -help to see possibilities."
     }else{
         $ok = $true
     }
