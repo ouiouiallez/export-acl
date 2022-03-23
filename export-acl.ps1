@@ -4,7 +4,8 @@ param(
     [string]$scan,
     [switch]$help,
     [switch]$q,
-    [string]$style="Light13"
+    [string]$style="Light13",
+    [switch]$split
 )
 
 <#
@@ -80,7 +81,14 @@ function Export{
         $Report += New-Object -TypeName PSObject -Property $Properties
     }
 
-    $file = $Report | Export-Excel $dest -WorksheetName $root -PassThru -TableStyle $style
+    if($split){
+        if($dest[-1] -ne "\"){
+            $dest += "\"
+        }
+        $filename = $dest + $root + ".xlsx"
+    }
+    
+    $file = $Report | Export-Excel $filename -WorksheetName $root -PassThru -TableStyle $style
     format -file $file
     Close-ExcelPackage $file
 }
@@ -233,6 +241,8 @@ function checkRequirementsAndInput{
         Write-Host "Please specify -out and -scan parameters. `nUse -help for more details."
     }elseif($null -eq $style -or $false -eq (checkStyles($style))){
         Write-Host "Please specify a valid style name.`nUse -help to see possibilities."
+    }elseif($split -and ($false -eq (isDirectory -userinput $out))){
+        Write-Host "Please specify a folder if you used the -split parameter as several files will be saved."
     }else{
         $ok = $true
     }

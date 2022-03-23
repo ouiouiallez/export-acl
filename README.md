@@ -36,6 +36,11 @@ Written by Benoît Flache, 2022.
 
 `-style` to select the table style. Possibilities  are listed in file `help.txt`     
 
+`-split` if you want to scan several folders and have the results saved in different files.     
+If you enabled this option, you have to give a folder and not a filename in the `-out` parameter.     
+The files are named like SCANNED_DIRECTORY_NAME.xlsx.      
+If there is already a file named like this in the folder, the results will be added as a second sheet in the existing file.
+
 ### txt file
 To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
 For example :
@@ -54,6 +59,7 @@ M:\
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
 .\export-acl.ps1 -help
 .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
+.\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
 ``` 
 ## Links
 [GitHub repository](https://github.com/ouiouiallez/export-acl)     
