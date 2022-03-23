@@ -27,20 +27,20 @@ Written by Benoît Flache, 2022.
 
 ### Parameters
 
-`-out` is where you want to save the Excel file. For example : C:\document.xlsx\
+`-out` is where you want to save the Excel file. For example : C:\document.xlsx
 
 `-scan` is either :
 
 - the path to the directory you want to scan
-- the path to a txt file with the list of all the directories you want to scan\
+- the path to a txt file with the list of all the directories you want to scan
   
-`-depth` is the recursive depth. Default : 1.\
+`-depth` is the recursive depth. Default : 1.
 
-`-help` to print help and command examples\
+`-help` to print help and command examples
 
-`-q` to disable output to console\
+`-q` to disable output to console
 
-`-style` to select the table style. Possibilities  are listed in file `help.txt`\
+`-style` to select the table style. Possibilities  are listed in file `help.txt`
 
 `-split` if you want to scan several folders and have the results saved in different files.\
 If you enabled this option, you have to give a folder and not a filename in the `-out` parameter.\
