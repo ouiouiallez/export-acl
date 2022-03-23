@@ -173,6 +173,10 @@ function getAllRights{
     return $rightsArray
 }
 
+<#
+.Description
+Returns an array containing all the paths to scan, wether it comes from -scan or from a text file.
+#>
 function getPaths{
     param(
         $userinput
@@ -187,6 +191,10 @@ function getPaths{
 
 }
 
+<#
+.Description
+Return true if the path given is a directory, false otherwise
+#>
 function isDirectory{
     param(
         $userinput
@@ -198,6 +206,10 @@ function isDirectory{
     }
 }
 
+<#
+.Description
+Returns the parent name of the given folder. Ex : C:\Parent\son\grandson will return Parent.
+#>
 function getRoot{
     param(
         $path
@@ -213,6 +225,10 @@ function getRoot{
     return $root
 }
 
+<#
+.Description
+Returns true if the table style given by the user checks with the available table styles, false otherwise.
+#>
 function checkStyles{
     param(
         [string]$style
@@ -221,13 +237,13 @@ function checkStyles{
     for($i = 1; $i -le 21; $i += 1){$allStyles += ("Light" + $i)}
     for($i = 1; $i -le 28; $i += 1){$allStyles += ("Medium" + $i)}
     for($i = 1; $i -le 11; $i += 1){$allStyles += ("Dark" + $i)}
-    if($allStyles -contains $style){
-        return $true
-    }else{
-        return $false
-    }
+    if($allStyles -contains $style){return $true}else{return $false}
 }
 
+<#
+.Description
+Check dependencies, and writes on host if parameters are missing or incorrect. Returns true if everythings okay.
+#>
 function checkRequirementsAndInput{
     $ok = $false
     #Installs Import-Excel module if not present
