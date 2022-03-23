@@ -107,7 +107,7 @@ function getRightsAndMembers{
         $name = $access.IdentityReference
         if(isADGroup -name $name){#if the name is an AD Group
             $ADGroup = $name.Value.split("\")[-1]#strips the "domainname\ before username"
-            $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}, "
+            $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n "
         }else{#if its a username
             $namesAndMembers += $name.Value + " "
         }
