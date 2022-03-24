@@ -5,7 +5,7 @@
 ## About
 
 This is a PowerShell script I made in order to audit the access rights in my company's shared folders.\
-Thanks to the ImportExcel module by dfinke, the ACL are exported to a pretty Excel file, with a worksheet for every folder given in parameter.\
+Thanks to the ImportExcel module by dfinke, the ACL are exported to one or more files (you choose), with a worksheet for every folder given in parameter.\
 Written by Benoît Flache, 2022.  
 
 ![screenshot](https://raw.githubusercontent.com/ouiouiallez/ouiouiallez.github.io/master/content/pics/screenshot.JPG)
@@ -15,7 +15,8 @@ Written by Benoît Flache, 2022.
 - Fetches the AD Security Groups, prints their names as well as the list of their members
 - Customizable search depth
 - Takes a single folder path or a file text with all paths to scan
-- Adds a Table Style (you can change it in source code in the Export function)
+- Adds a Table Style, you can change the default one with -style parameter
+- Puts all scans in a single file with several worksheets, or into separate files with single worksheets.
 
 ## Prerequisites
 

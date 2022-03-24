@@ -2,11 +2,11 @@ NAME
     export-acl
 
 SYNOPSIS
-    Exports the ACL list of a given folder to an Excel file.
+    Exports the ACL of one or more folders to one or more Excel files.
 
 SYNTAX
 
-    export-acl [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>] [-q <Switch>] [-style <System.String>] [-split <System.String>]
+    .\export-acl.ps1 [-scan <System.String[]] [-out <System.String>] [-depth <System.UInt32>] [-q <Switch>] [-style <System.String>] [-split <System.String>]
 
 PREREQUISITES
 

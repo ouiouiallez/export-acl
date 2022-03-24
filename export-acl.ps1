@@ -202,8 +202,10 @@ function isDirectory{
     param(
         $userinput
     )
-    if((Get-Item $userinput) -is [System.IO.DirectoryInfo]){
-        return $true
+    if((Test-Path $userinput) -eq $true){
+        if((Get-Item $userinput) -is [System.IO.DirectoryInfo]){
+            return $true        
+        }
     }else{
         return $false
     }
@@ -261,7 +263,7 @@ function checkRequirementsAndInput{
     }elseif($null -eq $style -or $false -eq (checkStyles($style))){
         Write-Host "Please specify a valid style name.`nUse -help to see possibilities."
     }elseif($split -and ($false -eq (isDirectory -userinput $out))){
-        Write-Host "Please specify a folder if you used the -split parameter as several files will be saved."
+        Write-Host "Please specify an existing directory if you used the -split parameter as several files will be saved."
     }else{
         $ok = $true
     }
