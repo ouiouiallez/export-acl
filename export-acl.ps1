@@ -81,11 +81,14 @@ function Export{
         $Report += New-Object -TypeName PSObject -Property $Properties
     }
 
+    #exports to different files if -split is invoked
     if($split){
-        if($dest[-1] -ne "\"){
+        if($dest[-1] -ne "\"){ # if the path given by the user lacks a final "\"
             $dest += "\"
         }
         $filename = $dest + $root + ".xlsx"
+    }else{#-out parameter is given without formatting
+        $filename = $dest
     }
     
     $file = $Report | Export-Excel $filename -WorksheetName $root -PassThru -TableStyle $style
@@ -107,7 +110,7 @@ function getRightsAndMembers{
         $name = $access.IdentityReference
         if(isADGroup -name $name){#if the name is an AD Group
             $ADGroup = $name.Value.split("\")[-1]#strips the "domainname\ before username"
-            $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n "
+            $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n"
         }else{#if its a username
             $namesAndMembers += $name.Value + " "
         }
