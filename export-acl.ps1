@@ -5,7 +5,8 @@ param(
     [switch]$help,
     [switch]$q,
     [string]$style="Light13",
-    [switch]$split
+    [switch]$split,
+    [switch]$noninherited
 )
 
 <#
@@ -64,6 +65,19 @@ function Export{
     #iterates to append to each line 
     Foreach ($Folder in $childFolders) {
         $Acl = Get-Acl -Path $Folder.FullName #gets ACL for current folder
+
+        #if -noninherited is called, check if any of the rights is noninherited before processing
+        if($noninherited){
+            $break = $true
+            foreach($access in $Acl.Access){
+                if($access.IsInherited -eq $false){
+                    $break = $false             
+                }
+            }
+            if($break){
+                continue
+            }
+        }
         $rightsAndNames = getRightsAndMembers -acl $Acl 
 
         $rootParenthesis = "(" + $root + ")" # allows folder name to be printed even if it has the same name as the root folder
@@ -78,7 +92,10 @@ function Export{
                 $Properties.add($right,$rightsAndNames[$right])
             }            
         }
+
         $Report += New-Object -TypeName PSObject -Property $Properties
+        
+        
     }
 
     #exports to different files if -split is invoked
