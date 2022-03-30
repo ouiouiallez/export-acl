@@ -6,7 +6,8 @@ param(
     [switch]$q,
     [string]$style="Light13",
     [switch]$split,
-    [switch]$noninherited
+    [switch]$noninherited,
+    [switch]$onlyusers
 )
 
 <#
@@ -127,7 +128,12 @@ function getRightsAndMembers{
         $name = $access.IdentityReference
         if(isADGroup -name $name){#if the name is an AD Group
             $ADGroup = $name.Value.split("\")[-1]#strips the "domainname\ before username"
-            $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n"
+            if($onlyusers){
+                $namesAndMembers += (getMembers -groupName $ADGroup)
+            }else{
+                $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n"
+            }
+            
         }else{#if its a username
             $namesAndMembers += $name.Value + " "
         }
