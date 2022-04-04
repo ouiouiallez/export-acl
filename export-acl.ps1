@@ -8,7 +8,9 @@ param(
     [switch]$split,
     [switch]$noninherited,
     [switch]$onlyusers,
-    [switch]$fullnames
+    [switch]$fullnames,
+    [switch]$nobuiltin,
+    [switch]$nosystem
 )
 
 <#
@@ -92,7 +94,7 @@ function Export{
                 $Properties[$right] = $rightsAndNames[$right]
             }else{
                 $Properties.add($right,$rightsAndNames[$right])
-            }            
+            }
         }
 
         $Report += New-Object -TypeName PSObject -Property $Properties
@@ -127,6 +129,11 @@ function getRightsAndMembers{
     foreach($access in $acl.Access){
         $namesAndMembers = "" 
         $name = $access.IdentityReference
+
+        #exclude groups if $nobuiltin or $nosystem are specified
+        if($nobuiltin){if($name.Value.split("\")[0].Contains("BUILTIN")){continue}}
+        if($nosystem){if($name.Value.split("\")[0].Contains("NT")){continue}}
+
         if(isADGroup -name $name){#if the name is an AD Group
             $ADGroup = $name.Value.split("\")[-1]#strips the "domainname\ before username"
             if($onlyusers){
