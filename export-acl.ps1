@@ -133,11 +133,11 @@ function getRightsAndMembers{
                 $namesAndMembers += (getMembers -groupName $ADGroup)
             }else{
                 $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n"
-            }
-            
+            }            
         }else{#if its a username
             $namesAndMembers += $name.Value + " "
         }
+
         #get-acl cmdlet returns readandexecute even if the permission is only "list folder", so this check is for this
        if($access.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is indeed List Folder Contents
             $filesystemrights = "List Folder Contents"
@@ -161,7 +161,7 @@ function isADGroup{
     param(
         $name
     )
-    $splitted = $name.Value.split("\")[-1]
+    if($name.Value.Contains("\")){$splitted = $name.Value.split("\")[-1]}else{$splitted = $name.Value}
     $query = (Get-ADObject -Filter 'objectClass -eq "group" -and Name -eq $splitted')
     if($null -eq $query -or "" -eq $query){
         return $false
@@ -188,7 +188,7 @@ function getMembers{
         
         $stringMembers += $member + ", "
     }
-    $stringMembers = $stringMembers.Substring(0,$stringMembers.Length-2)
+    if($stringMembers.Length -gt 2 ){$stringMembers = $stringMembers.Substring(0,$stringMembers.Length-2)}
     return $stringMembers
 }
 

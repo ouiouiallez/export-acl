@@ -52,7 +52,7 @@ If there is already a file named like this in the folder, the results will be ad
 
 `-noninherited` if you want to export only the non-inherited access rights. Helps readability in large scans.
 
-`onlyusers` if you want to export only the usernames and omit the group names.
+`-onlyusers` if you want to export only the usernames and omit the group names.
 
 ### txt file
 
