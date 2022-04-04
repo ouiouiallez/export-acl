@@ -122,7 +122,7 @@ function getRightsAndMembers{
     param(
         $acl
     )
-    $rightsAndNames =@{} # hash table recensant droits et utilisateurs / groupes associés à ceux ci
+    $rightsAndNames =@{} # hash table with right as a key, and users as value
     foreach($access in $acl.Access){
         $namesAndMembers = "" 
         $name = $access.IdentityReference
@@ -137,10 +137,16 @@ function getRightsAndMembers{
         }else{#if its a username
             $namesAndMembers += $name.Value + " "
         }
-        if($rightsAndNames.ContainsKey($access.FileSystemRights)){
-            $rightsAndNames[$access.FileSystemRights] += $namesAndMembers
+        #get-acl cmdlet returns readandexecute even if the permission is only "list folder", so this check is for this
+       if($access.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is indeed List Folder Contents
+            $filesystemrights = "List Folder Contents"
         }else{
-            $rightsAndNames.add($access.FileSystemRights, $namesAndMembers)
+            $filesystemrights = $access.FileSystemRights
+        }
+        if($rightsAndNames.ContainsKey($filesystemrights)){
+            $rightsAndNames[$filesystemrights] += $namesAndMembers
+        }else{
+            $rightsAndNames.add($filesystemrights, $namesAndMembers)
         }
     }
     return $rightsAndNames
@@ -192,7 +198,12 @@ function getAllRights{
         $Acl = Get-Acl -Path $folder.FullName
         foreach($accessType in $Acl.Access){
             if($false -eq ($rightsArray -contains $accessType)){
-                $rightsArray += $accessType.FileSystemRights
+                if($accessType.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is List Folder Contents
+                    $filesystemrights = "List Folder Contents"
+                }else{
+                    $filesystemrights = $accessType.FileSystemRights
+                }
+                $rightsArray += $filesystemrights
             }
         }
     }
