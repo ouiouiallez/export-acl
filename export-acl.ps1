@@ -7,7 +7,8 @@ param(
     [string]$style="Light13",
     [switch]$split,
     [switch]$noninherited,
-    [switch]$onlyusers
+    [switch]$onlyusers,
+    [switch]$fullnames
 )
 
 <#
@@ -176,12 +177,18 @@ function getMembers{
     param(
         $groupName
     )
-    $arrayMembers = Get-ADGroupMember -identity $groupName -recursive | Select-Object SamAccountName
+    $arrayMembers = Get-ADGroupMember -identity $groupName -recursive
     $stringMembers=""
     foreach($key in $arrayMembers){
-        $member = ((out-string -inputobject $key).Split([Environment]::NewLine)[6]).Trim()#isolates name
-        $stringMembers += " " + $member     
+        if($fullnames){
+            $member = $key.name
+        }else{
+            $member = $key.samaccountname
+        }
+        
+        $stringMembers += $member + ", "
     }
+    $stringMembers = $stringMembers.Substring(0,$stringMembers.Length-2)
     return $stringMembers
 }
 

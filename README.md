@@ -48,6 +48,12 @@ If you enabled this option, you have to give a folder and not a filename in the 
 The files are named like SCANNED_DIRECTORY_NAME.xlsx.\
 If there is already a file named like this in the folder, the results will be added as a second sheet in the existing file.
 
+`-fullnames` to export the full names instead of the logins
+
+`-noninherited` if you want to export only the non-inherited access rights. Helps readability in large scans.
+
+`onlyusers` if you want to export only the usernames and omit the group names.
+
 ### txt file
 
 To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
@@ -70,6 +76,7 @@ M:\
 .\export-acl.ps1 -help
 .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
+.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames
 ```
 
 ## Links
