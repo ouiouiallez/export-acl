@@ -1,6 +1,6 @@
 NAME
     export-acl
-
+    
 SYNOPSIS
     Exports the ACL of one or more folders to one or more Excel files.
 

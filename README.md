@@ -17,6 +17,11 @@ Written by Benoît Flache, 2022.
 - Takes a single folder path or a file text with all paths to scan
 - Adds a Table Style, you can change the default one with -style parameter
 - Puts all scans in a single file with several worksheets, or into separate files with single worksheets.
+- Print login names or full names
+- Can omit BUILTIN and SYSTEM accounts from the report
+- Possibility to disable output (errors are still printed on the host console)
+- You can choose to export only non inherited access
+- You can choose to export only the usernames and omit the security groups names
 
 ## Prerequisites
 
