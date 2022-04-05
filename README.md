@@ -59,7 +59,7 @@ If there is already a file named like this in the folder, the results will be ad
 
 `-onlyusers` if you want to export only the usernames and omit the group names.
 
-`-nobuiltin` to exclude BUITIN accounts from the report
+`-nobuiltin` to exclude BUILTIN accounts from the report
 
 `-nosystem` to exclude the SYSTEM account from the report
 

@@ -203,7 +203,7 @@ function getRightsAndMembers{
 
 <#
 .Description
-Customizable function to determine if the given name is a user or a AD Group, you decide how to run the tests. 
+Determines if the name "ie domain\g_rw_securitygroup or domain\user1 is an AD group or not"
 #>
 function isADGroup{
     param(
@@ -242,7 +242,7 @@ function getMembers{
 
 <#
 .Description
-Return an arrray containing the different rights given throughout the folders, allowing to determine the exact number of columns for the sheet
+Return an array containing the different rights given throughout the folders, allowing to determine the exact number of columns for the sheet
 #>
 function getAllRights{
     param(
