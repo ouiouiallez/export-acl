@@ -34,11 +34,52 @@ function format{
             }else{
                 Set-ExcelColumn -ExcelPackage $file -Worksheetname $worksheet -Column $column -Width 50
             }
-                $column += 1
+        $column += 1
+        }
+        deleteEmptyColumns -ws $worksheet -maxcols $column -maxrows (countRows -ws $worksheet)
+    }
+    #format cells for backlines and text on top
+    Set-Format -Address $worksheet.Cells -WrapText -VerticalAlignment Top 
+}
+
+<#
+.Description
+Counts number of rows within the given worksheet
+#>
+function countRows{
+    param(
+        $ws
+    )
+    $row = 1
+    $column = 1
+    $end = $false
+    while($end -eq $false){
+        $value = $ws.Cells.Item($row,$column).Value
+        if($null -eq $value){$end = $true}else{$row += 1}
+    }
+    return $row
+}
+
+<#
+.Description
+Deletes empty columns within the given worksheet (ie no users are within this column, because they have been removed from the report with -nobuiltin or nosystem)
+#>
+function deleteEmptyColumns{
+    param(
+        $ws,
+        $maxcols,
+        $maxrows
+    )
+    for($curcol = 2;$curcol -le $maxcols;$curcol++){ # for each column
+        $isempty = $true
+        for($currow = 2;$currow -le $maxrows;$currow++){ # for each row in this column
+            $value = $ws.Cells.Item($currow,$curcol).Value
+            if($null -ne $value){
+                $isempty = $false
             }
         }
-        #format cells for backlines and text on top
-        Set-Format -Address $worksheet.Cells -WrapText -VerticalAlignment Top 
+        if($isempty){$ws.DeleteColumn($curcol)}
+    }
 }
 
 <#
