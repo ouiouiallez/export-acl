@@ -54,6 +54,10 @@ If there is already a file named like this in the folder, the results will be ad
 
 `-onlyusers` if you want to export only the usernames and omit the group names.
 
+`-nobuiltin` to exclude BUITIN accounts from the report
+
+`-nosystem` to exclude the SYSTEM account from the report
+
 ### txt file
 
 To scan several folders in one shot, you can create a txt file containing all those folders separated by a line break
@@ -76,7 +80,7 @@ M:\
 .\export-acl.ps1 -help
 .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
-.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames
+.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames -nobuiltin -nosystem
 ```
 
 ## Links
