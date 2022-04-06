@@ -33,12 +33,16 @@ Written by Benoît Flache, 2022.
 
 ### Parameters
 
+#### Mandatory
+
 `-out` is where you want to save the Excel file. For example : C:\document.xlsx
 
 `-scan` is either :
 
 - the path to the directory you want to scan
 - the path to a txt file with the list of all the directories you want to scan
+
+#### Additional
   
 `-depth` is the recursive depth. Default : 1.
 
@@ -78,12 +82,19 @@ M:\
 ## Examples
 
 ```powershell
+# exports all ACL from the folder's childfolders and grand childfolders
 .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
+# exports all ACL from the listed folders in the text file, including childfolders and grand childfolders. One Excel file, with one Worksheet per listed folder
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
+# same as above, but add one recursivity level (default is 1)
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2
+# print help
 .\export-acl.ps1 -help
+# Export all ACL from one folder and its descendants, and add style Medium 3 to the pivottable
 .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
+# Export all ACL from the folders listed in txt file, but decreases recursivity to one level (same result as dir command), with one excel file per listed folder
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
+# Export all non inherited ACL from one folder with a large recursivity, printing the fullnames instead of logins, excluding SYSTEM and BUILTIN accounts from the report.
 .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames -nobuiltin -nosystem
 ```
 

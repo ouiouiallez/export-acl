@@ -33,9 +33,20 @@ Default is Light13.
 
 EXAMPLES
 
-    .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
-    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
-    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2 -q
-    .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
-    .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
-    .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames -nobuiltin -nosystem
+----1. exports all ACL from the folder's childfolders and grand childfolders
+        .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx
+
+----2. exports all ACL from the listed folders in the text file, including childfolders and grand childfolders. One Excel file, with one Worksheet per listed folder
+        .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx
+
+----3. same as above, but add one recursivity level (default is 1), and disable output on the host console
+        .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\document.xlsx -depth 2 -q
+
+----4. Export all ACL from one folder and its descendants, and add style Medium 3 to the pivottable
+        .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -style Medium3
+
+----5. Export all ACL from the folders listed in txt file, but decreases recursivity to one level (same result as dir command), with one excel file per listed folder
+        .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
+
+----6. Export all non inherited ACL from one folder with a large recursivity, printing the fullnames instead of logins, excluding SYSTEM and BUILTIN accounts from the report.
+        .\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames -nobuiltin -nosystem
