@@ -51,7 +51,6 @@ Written by Benoît Flache, 2022.
 `-split` if you want to scan several folders and have the results saved in different files.\
 If you enabled this option, you have to give a folder and not a filename in the `-out` parameter.\
 The files are named like SCANNED_DIRECTORY_NAME.xlsx.\
-If there is already a file named like this in the folder, the results will be added as a second sheet in the existing file.
 
 `-fullnames` to export the full names instead of the logins
 

@@ -336,7 +336,7 @@ function checkStyles{
 
 <#
 .Description
-Check dependencies, and writes on host if parameters are missing or incorrect. Returns true if everythings okay.
+Check dependencies, and writes on host if parameters are missing or incorrect. Returns true if everything's okay.
 #>
 function checkRequirementsAndInput{
     $ok = $false
@@ -348,11 +348,17 @@ function checkRequirementsAndInput{
     if($help){
         Write-Host (Get-Content -Raw -Encoding utf8 help.txt)
     }elseif($null -eq $out -or "" -eq $out -or $null -eq $scan -or "" -eq $scan){
-        Write-Host "Please specify -out and -scan parameters. `nUse -help for more details."
+        Write-Host "ERROR : Please specify -out and -scan parameters. `nUse -help for more details."
     }elseif($null -eq $style -or $false -eq (checkStyles($style))){
-        Write-Host "Please specify a valid style name.`nUse -help to see possibilities."
+        Write-Host "ERROR : Please specify a valid style name.`nUse -help to see possibilities."
     }elseif($split -and ($false -eq (isDirectory -userinput $out))){
-        Write-Host "Please specify an existing directory if you used the -split parameter as several files will be saved."
+        Write-Host "ERROR : Please specify an existing directory if you used the -split parameter as several files will be saved."
+    }elseif(!$split -and ($true -eq (isDirectory -userinput $out))){
+        Write-Host "ERROR : Please specify a valid filename, with .xlsx extension."
+    }elseif(!$split -and $true -eq (Test-Path $out)){
+        Write-Host "ERROR : File already exists."
+    }elseif(!$split -and "xlsx" -ne ($out.Split(".")[-1])){
+        Write-Host "ERROR : Please specify a valid file extension : .xlsx"
     }else{
         $ok = $true
     }
