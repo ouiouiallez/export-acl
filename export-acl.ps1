@@ -27,7 +27,7 @@ function format{
         $column = 1
         $exit = $false
         #iterates on every cell with a value
-        while($exit -eq $false){
+        while(!$exit){
             $cell = $worksheet.Cells.Item($row,$column)
             if($null -eq $cell.Value){
                 $exit = $true
@@ -53,7 +53,7 @@ function countRows{
     $row = 1
     $column = 1
     $end = $false
-    while($end -eq $false){
+    while(!$end){
         $value = $ws.Cells.Item($row,$column).Value
         if($null -eq $value){$end = $true}else{$row += 1}
     }
@@ -137,10 +137,7 @@ function Export{
                 $Properties.add($right,$rightsAndNames[$right])
             }
         }
-
-        $Report += New-Object -TypeName PSObject -Property $Properties
-        
-        
+        $Report += New-Object -TypeName PSObject -Property $Properties     
     }
 
     #exports to different files if -split is invoked
@@ -160,7 +157,7 @@ function Export{
 
 <#
 .Description
-Returns a hashtable with the Right type as key (ie FullControl), and the users asociated as value.
+Returns a hashtable with the Right type as key (ie FullControl), and the users associated as value.
 #>
 function getRightsAndMembers{
     param(
@@ -211,11 +208,7 @@ function isADGroup{
     )
     if($name.Value.Contains("\")){$splitted = $name.Value.split("\")[-1]}else{$splitted = $name.Value}
     $query = (Get-ADObject -Filter 'objectClass -eq "group" -and Name -eq $splitted')
-    if($null -eq $query -or "" -eq $query){
-        return $false
-    }else{
-        return $true
-    }
+    if($null -eq $query -or "" -eq $query){return $false}else{return $true}
 }
 <#
 .Description
@@ -233,7 +226,6 @@ function getMembers{
         }else{
             $member = $key.samaccountname
         }
-        
         $stringMembers += $member + ", "
     }
     if($stringMembers.Length -gt 2 ){$stringMembers = $stringMembers.Substring(0,$stringMembers.Length-2)}
@@ -274,13 +266,8 @@ function getPaths{
         $userinput
     )
     $array = @()
-    if(isDirectory -userinput $userinput){
-        $array += $userinput
-    }else{
-        $array = get-content $userinput
-    }
+    if(isDirectory -userinput $userinput){$array += $userinput}else{$array = get-content $userinput}
     return $array
-
 }
 
 <#
@@ -359,16 +346,14 @@ function checkRequirementsAndInput{
         Write-Host "ERROR : File already exists."
     }elseif(!$split -and "xlsx" -ne ($out.Split(".")[-1])){
         Write-Host "ERROR : Please specify a valid file extension : .xlsx"
-    }else{
-        $ok = $true
-    }
+    }else{$ok = $true}
     return $ok
 }
 
 #------------------------ MAIN ------------------------#
 $ok = checkRequirementsAndInput
 
-if($ok -eq $true){
+if($ok){
     foreach($dir in getPaths -userinput $scan){
         $root = getRoot -path $dir
         if($q -ne $true){write-host -nonewline "Scanning $root..."}
@@ -378,5 +363,3 @@ if($ok -eq $true){
 }else{
     Exit
 }
-    
-
