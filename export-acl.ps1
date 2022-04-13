@@ -180,7 +180,11 @@ function getRightsAndMembers{
                 $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n"
             }            
         }else{#if its a username
-            $namesAndMembers += $name.Value + " "
+            if($name.Value.Contains("\")){
+                $namesAndMembers += $name.Value.split("\")[-1] + ", "
+            }else{
+                $namesAndMembers += $name.Value + ", "
+            }
         }
 
         #get-acl cmdlet returns readandexecute even if the permission is only "list folder", so this check is for this
