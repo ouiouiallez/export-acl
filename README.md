@@ -44,7 +44,7 @@ Written by Benoît Flache, 2022.
 
 #### Additional
   
-`-depth` is the recursive depth. Default : 1.
+`-depth` is the recursive depth. Default : 1. Type -1 if you want to parse all subdirectories.
 
 `-help` to print help and command examples
 

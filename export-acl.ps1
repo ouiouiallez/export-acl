@@ -91,7 +91,12 @@ function Get-Child-Recurse{
         [string]$working_dir,
         $depth
     )
-    return ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force) | Sort-Object -Property FullName)
+    if($depth -eq -1){
+        return ((Get-ChildItem -Directory -Path $working_dir -recurse -Force) | Sort-Object -Property FullName)
+    }else{
+        return ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force) | Sort-Object -Property FullName)
+    }
+    
 }
 
 <#
