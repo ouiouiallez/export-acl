@@ -92,9 +92,9 @@ function Get-Child-Recurse{
         $depth
     )
     if($depth -eq -1){
-        return ((Get-ChildItem -Directory -Path $working_dir -recurse -Force) | Sort-Object -Property FullName)
+        return ((Get-ChildItem -Directory -Path $working_dir -recurse -Force -ErrorAction silentlycontinue) | Sort-Object -Property FullName)
     }else{
-        return ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force) | Sort-Object -Property FullName)
+        return ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force -ErrorAction silentlycontinue) | Sort-Object -Property FullName)
     }
     
 }
@@ -120,9 +120,11 @@ function Export{
         if($noninherited){
             $break = $true
             foreach($access in $Acl.Access){
-                if($access.IsInherited -eq $false){
-                    $break = $false             
-                }
+                if(!($name.Value.split("\")[0].Contains("NT"))){#if it is not system account we are talking about (messed up my previous reports)
+                    if($access.IsInherited -eq $false){
+                        $break = $false             
+                    }
+                }                
             }
             if($break){
                 continue
