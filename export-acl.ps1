@@ -112,15 +112,22 @@ function Export{
     $Report = @()
     $allRights = getAllRights -childFolders $childFolders #gets all rights given to determine the number of columns
 
+    $current = 0 #working var to print the progression
     #iterates to append to each line 
     Foreach ($Folder in $childFolders) {
         $Acl = Get-Acl -Path $Folder.FullName #gets ACL for current folder
+
+        if(!$q){#write progress bar
+            $current += 1
+            $percentage = [math]::Round((($current / $childFolders.Length) * 100))
+            Write-Progress -Activity "Scanning $root..." -Status "$percentage% Complete:" -PercentComplete $percentage
+        }
 
         #if -noninherited is called, check if any of the rights is noninherited before processing
         if($noninherited){
             $break = $true
             foreach($access in $Acl.Access){
-                if(!($name.Value.split("\")[0].Contains("NT"))){#if it is not system account we are talking about (messed up my previous reports)
+                if(!($access.IdentityReference.Value.split("\")[0].Contains("NT"))){#if it is not system account we are talking about (messed up my previous reports)
                     if($access.IsInherited -eq $false){
                         $break = $false             
                     }
@@ -367,9 +374,7 @@ $ok = checkRequirementsAndInput
 if($ok){
     foreach($dir in getPaths -userinput $scan){
         $root = getRoot -path $dir
-        if($q -ne $true){write-host -nonewline "Scanning $root..."}
         Export -childFolders (Get-Child-Recurse -depth $depth -working_dir $dir) -dest $out -root $root
-        if($q -ne $true){Write-Host "Done"}
     }
 }else{
     Exit
