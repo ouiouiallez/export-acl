@@ -95,7 +95,7 @@ M:\
 # Export all ACL from the folders listed in txt file, but decreases recursivity to one level (same result as dir command), with one excel file per listed folder
 .\export-acl.ps1 -scan C:\path\to\list.txt -out C:\directory -split -depth 0
 # Export all non inherited ACL from one folder with a large recursivity, printing the fullnames instead of logins, excluding SYSTEM and BUILTIN accounts from the report.
-.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth 5 -noninherited -fullnames -nobuiltin -nosystem
+.\export-acl.ps1 -scan M:\path\to\directory -out C:\document.xlsx -depth -1 -noninherited -fullnames -nobuiltin -nosystem
 ```
 
 ## Links

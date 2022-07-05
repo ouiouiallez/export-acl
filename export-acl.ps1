@@ -110,17 +110,21 @@ function Export{
         $dest
     )
     $Report = @()
-    $allRights = getAllRights -childFolders $childFolders #gets all rights given to determine the number of columns
+    $allRights,$allacls = getAllRights -childFolders $childFolders #gets all rights given to determine the number of columns
 
     $current = 0 #working var to print the progression
     #iterates to append to each line 
     Foreach ($Folder in $childFolders) {
-        $Acl = Get-Acl -Path $Folder.FullName #gets ACL for current folder
+
+        if(!($allacls[$folder.Fullname])){#do not append a line if for some reason the acl could not be fetched. 
+            continue
+        }
+        $Acl = $allacls[$folder.Fullname] #gets ACL for current folder
 
         if(!$q){#write progress bar
             $current += 1
             $percentage = [math]::Round((($current / $childFolders.Length) * 100))
-            Write-Progress -Activity "Scanning $root..." -Status "$percentage% Complete:" -PercentComplete $percentage
+            Write-Progress -Activity "Exporting ACLs for $root..." -Status "$percentage% Complete:" -PercentComplete $percentage
         }
 
         #if -noninherited is called, check if any of the rights is noninherited before processing
@@ -202,7 +206,7 @@ function getRightsAndMembers{
         }
 
         #get-acl cmdlet returns readandexecute even if the permission is only "list folder", so this check is for this
-       if($access.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is indeed List Folder Contents
+        if($access.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is indeed List Folder Contents
             $filesystemrights = "List Folder Contents"
         }else{
             $filesystemrights = $access.FileSystemRights
@@ -253,26 +257,39 @@ function getMembers{
 <#
 .Description
 Return an array containing the different rights given throughout the folders, allowing to determine the exact number of columns for the sheet
+Also returns a hashmap containing the ACLs for each and every folder (the folder fullname acts as the key, acl as the value)
 #>
 function getAllRights{
     param(
         $childFolders
     )
     $rightsArray=@()
+    $allacls = [ordered]@{}
+    $current = 0
     foreach($folder in $childFolders){
-        $Acl = Get-Acl -Path $folder.FullName
-        foreach($accessType in $Acl.Access){
-            if($false -eq ($rightsArray -contains $accessType)){
-                if($accessType.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is List Folder Contents
-                    $filesystemrights = "List Folder Contents"
-                }else{
-                    $filesystemrights = $accessType.FileSystemRights
+        if(!$q){#write progress bar
+            $current += 1
+            $percentage = [math]::Round((($current / $childFolders.Length) * 100))
+            Write-Progress -Activity "Fetching ACLs for $root..." -Status "$percentage% Complete:" -PercentComplete $percentage
+        }
+        $Acl = Get-Acl -Path $folder.FullName -ErrorAction silentlycontinue
+        $allacls.Add($folder.Fullname, $Acl)
+        if($Acl){
+            foreach($accessType in $Acl.Access){
+                if($false -eq ($rightsArray -contains $accessType)){
+                    if($accessType.inheritanceflags.tostring() -eq 'ContainerInherit'){#if permission is List Folder Contents
+                        $filesystemrights = "List Folder Contents"
+                    }else{
+                        $filesystemrights = $accessType.FileSystemRights
+                    }
+                    $rightsArray += $filesystemrights
                 }
-                $rightsArray += $filesystemrights
             }
+        }elseif(!$q){
+            Write-Host "Could not fetch ACLs for "$folder.Fullname
         }
     }
-    return $rightsArray
+    return $rightsArray, $allacls
 }
 
 <#
@@ -374,7 +391,10 @@ $ok = checkRequirementsAndInput
 if($ok){
     foreach($dir in getPaths -userinput $scan){
         $root = getRoot -path $dir
-        Export -childFolders (Get-Child-Recurse -depth $depth -working_dir $dir) -dest $out -root $root
+        if(!$q){Write-Host "Fetching child folders for $root..." -NoNewline}
+        $childs = Get-Child-Recurse -depth $depth -working_dir $dir
+        if(!$q){Write-Host "Done."}
+        Export -childFolders $childs -dest $out -root $root
     }
 }else{
     Exit
