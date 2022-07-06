@@ -273,7 +273,13 @@ function getAllRights{
             Write-Progress -Activity "Fetching ACLs for $root..." -Status "$percentage% Complete:" -PercentComplete $percentage
         }
         $Acl = Get-Acl -Path $folder.FullName -ErrorAction silentlycontinue
-        $allacls.Add($folder.Fullname, $Acl)
+        if($allacls[$folder.Fullname]){
+            if(!$q){Write-Host "W: " $folder.Fullname " already exists. Skipping..." -ForegroundColor Yellow}
+            continue
+        }else{
+            $allacls.Add($folder.Fullname, $Acl)
+        }
+        
         if($Acl){
             foreach($accessType in $Acl.Access){
                 if($false -eq ($rightsArray -contains $accessType)){
@@ -286,7 +292,7 @@ function getAllRights{
                 }
             }
         }elseif(!$q){
-            Write-Host "Could not fetch ACLs for "$folder.Fullname
+            Write-Host "W: Could not fetch ACLs for "$folder.Fullname -ForegroundColor Yellow
         }
     }
     return $rightsArray, $allacls
@@ -370,17 +376,17 @@ function checkRequirementsAndInput{
     if($help){
         Write-Host (Get-Content -Raw -Encoding utf8 help.txt)
     }elseif($null -eq $out -or "" -eq $out -or $null -eq $scan -or "" -eq $scan){
-        Write-Host "ERROR : Please specify -out and -scan parameters. `nUse -help for more details."
+        Write-Host "ERROR : Please specify -out and -scan parameters. `nUse -help for more details." -ForegroundColor Red
     }elseif($null -eq $style -or $false -eq (checkStyles($style))){
-        Write-Host "ERROR : Please specify a valid style name.`nUse -help to see possibilities."
+        Write-Host "ERROR : Please specify a valid style name.`nUse -help to see possibilities." -ForegroundColor Red
     }elseif($split -and ($false -eq (isDirectory -userinput $out))){
-        Write-Host "ERROR : Please specify an existing directory if you used the -split parameter as several files will be saved."
+        Write-Host "ERROR : Please specify an existing directory if you used the -split parameter as several files will be saved." -ForegroundColor Red
     }elseif(!$split -and ($true -eq (isDirectory -userinput $out))){
-        Write-Host "ERROR : Please specify a valid filename, with .xlsx extension."
+        Write-Host "ERROR : Please specify a valid filename, with .xlsx extension." -ForegroundColor Red
     }elseif(!$split -and $true -eq (Test-Path $out)){
-        Write-Host "ERROR : File already exists."
+        Write-Host "ERROR : File already exists." -ForegroundColor Red
     }elseif(!$split -and "xlsx" -ne ($out.Split(".")[-1])){
-        Write-Host "ERROR : Please specify a valid file extension : .xlsx"
+        Write-Host "ERROR : Please specify a valid file extension : .xlsx" -ForegroundColor Red
     }else{$ok = $true}
     return $ok
 }
