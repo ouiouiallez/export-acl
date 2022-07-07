@@ -131,7 +131,8 @@ function Export{
         if($noninherited){
             $break = $true
             foreach($access in $Acl.Access){
-                if(!($access.IdentityReference.Value.split("\")[0].Contains("NT"))){#if it is not system account we are talking about (messed up my previous reports)
+                #if it is not system or builtin account we are talking about (messed up my previous reports)
+                if(!($access.IdentityReference.Value.split("\")[0].Contains("NT")) -and !($access.IdentityReference.Value.split("\")[0].Contains("BUILTIN"))){
                     if($access.IsInherited -eq $false){
                         $break = $false             
                     }
