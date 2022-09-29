@@ -273,7 +273,7 @@ function getAllRights{
             $percentage = [math]::Round((($current / $childFolders.Length) * 100))
             Write-Progress -Activity "Fetching ACLs for $root..." -Status "$percentage% Complete:" -PercentComplete $percentage
         }
-        $Acl = Get-Acl -Path $folder.FullName -ErrorAction silentlycontinue
+        $Acl = (get-item -literalpath $folder.FullName -ErrorAction silentlycontinue).getaccesscontrol()
         if($allacls[$folder.Fullname]){
             if(!$q){Write-Host "W: " $folder.Fullname " already exists. Skipping..." -ForegroundColor Yellow}
             continue
