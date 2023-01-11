@@ -91,12 +91,17 @@ function Get-Child-Recurse{
         [string]$working_dir,
         $depth
     )
-    if($depth -eq -1){
-        return ((Get-ChildItem -Directory -Path $working_dir -recurse -Force -ErrorAction silentlycontinue) | Sort-Object -Property FullName)
-    }else{
-        return ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force -ErrorAction silentlycontinue) | Sort-Object -Property FullName)
+    #get parent folder if available, for the first line of the report
+    $result = @()
+    if((Get-Item $working_dir)){
+        $result += ((Get-Item $working_dir))
     }
-    
+    if($depth -eq -1){
+        $result += ((Get-ChildItem -Directory -Path $working_dir -recurse -Force -ErrorAction silentlycontinue) | Sort-Object -Property FullName)
+    }else{
+        $result +=  ((Get-ChildItem -Directory -Path $working_dir -depth $depth -Force -ErrorAction silentlycontinue) | Sort-Object -Property FullName)
+    }
+    return $result
 }
 
 <#
@@ -146,6 +151,7 @@ function Export{
 
         $rootParenthesis = "(" + $root + ")" # allows folder name to be printed even if it has the same name as the root folder
         $path = ($Folder.FullName -split $rootParenthesis,2)[-1]
+        
         #creates fields to export
         $Properties = [ordered]@{'Path'=$path}
         #adds a column per access type and creates fields
