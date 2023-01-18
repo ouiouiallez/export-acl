@@ -151,7 +151,7 @@ function Export{
 
         $rootParenthesis = "(" + $root + ")" # allows folder name to be printed even if it has the same name as the root folder
         $path = ($Folder.FullName -split $rootParenthesis,2)[-1]
-        
+        if($path -eq "\"){$path = "../$root"}#if this is the root folder report line
         #creates fields to export
         $Properties = [ordered]@{'Path'=$path}
         #adds a column per access type and creates fields
@@ -251,7 +251,7 @@ function getMembers{
     $stringMembers=""
     foreach($key in $arrayMembers){
         if($fullnames){
-            $member = $key.name
+            $member = (Get-ADUser -identity $key).givenname + " " + (Get-ADUser -identity $key).surname
         }else{
             $member = $key.samaccountname
         }
