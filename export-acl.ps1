@@ -200,7 +200,7 @@ function getRightsAndMembers{
         if(isADGroup -name $name){#if the name is an AD Group
             $ADGroup = $name.Value.split("\")[-1]#strips the "domainname\ before username"
             if($onlyusers){
-                $namesAndMembers += (getMembers -groupName $ADGroup)
+                if(getMembers -groupName $ADGroup){$namesAndMembers += (getMembers -groupName $ADGroup) + ", "}
             }else{
                 $namesAndMembers += $name.Value + "{" + (getMembers -groupName $ADGroup) + "}`n"
             }            
